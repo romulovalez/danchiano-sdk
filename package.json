@@ -1,0 +1,51 @@
+{
+  "name": "danchiano-sdk",
+  "version": "0.0.1",
+  "description": "D'Anchiano SDK",
+  "main": "dist/index.cjs.js",
+  "jsnext:main": "dist/index.esm.js",
+  "module": "dist/index.esm.js",
+  "browser": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "jest",
+    "lint": "eslint src/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/romulovalez/danchiano-sdk.git"
+  },
+  "keywords": [
+    "danchiano",
+    "anchiano"
+  ],
+  "author": "Rómulo Ochoa Valez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/romulovalez/danchiano-sdk/issues"
+  },
+  "homepage": "https://github.com/romulovalez/danchiano-sdk#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.15.0",
+    "@rollup/plugin-typescript": "^8.2.5",
+    "@testing-library/dom": "^8.2.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@types/jest": "^27.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
+    "@typescript-eslint/parser": "^4.30.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jest-dom": "^3.9.0",
+    "eslint-plugin-testing-library": "^4.12.0",
+    "jest": "^27.1.0",
+    "rollup": "^2.56.3",
+    "rollup-plugin-terser": "^7.0.2",
+    "tslib": "^2.3.1",
+    "typescript": "^4.4.2"
+  },
+  "files": [
+    "dist"
+  ]
+}

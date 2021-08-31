@@ -1,0 +1,6 @@
+{
+  "presets": [
+    // Support import statements for jest
+    ["@babel/preset-env", { "targets": { "node": "current" } }]
+  ]
+}

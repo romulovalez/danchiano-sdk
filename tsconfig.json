@@ -2,7 +2,7 @@
   // Enable declaration output
   // See https://github.com/rollup/plugins/tree/master/packages/typescript#declaration-output-with-outputfile
   "include": ["src/**/*"],
-  "exclude": ["src/**/*.test.js", "dist"],
+  "exclude": ["dist"],
   "compilerOptions": {
     "outDir": "dist",
     "declaration": true,        /* Generate .d.ts files from TypeScript and JavaScript files in your project. */

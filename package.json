@@ -1,6 +1,6 @@
 {
   "name": "danchiano-sdk",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "D'Anchiano SDK",
   "main": "dist/index.cjs.js",
   "jsnext:main": "dist/index.esm.js",
@@ -10,12 +10,14 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
+    "pretest": "yarn build",
     "test": "jest",
-    "lint": "eslint src/"
+    "lint": "eslint src/",
+    "prepublishOnly": "yarn lint && yarn build"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/romulovalez/danchiano-sdk.git"
+    "url": "git+https://github.com/romulovalez/danchiano-sdk.git"
   },
   "keywords": [
     "danchiano",
@@ -28,6 +30,7 @@
   },
   "homepage": "https://github.com/romulovalez/danchiano-sdk#readme",
   "devDependencies": {
+    "@babel/core": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
     "@rollup/plugin-typescript": "^8.2.5",
     "@testing-library/dom": "^8.2.0",
@@ -43,7 +46,7 @@
     "rollup": "^2.56.3",
     "rollup-plugin-terser": "^7.0.2",
     "tslib": "^2.3.1",
-    "typescript": "^4.4.2"
+    "typescript": "4.3.5"
   },
   "files": [
     "dist"

@@ -271,33 +271,3 @@ const Danchiano = {
 }
 
 export default Danchiano
-
-// // Types of callback
-// callback = ({ action: 'applicantRegister', applicantId })
-// callback = ({ action: 'companyRegister', companyId })
-// callback = ({ action: 'companyPostJob', jobId })
-// callback = ({ action: 'getReport', ...profiles })
-
-// /**
-//  * Initialization
-//  */
-// declare global {
-//   interface Window {
-//     danchianoAsyncInit?: () => void
-//   }
-// }
-
-// function DOMLoaded() {
-//   if (typeof window.danchianoAsyncInit === 'function') {
-//     window.danchianoAsyncInit()
-//   } else {
-//     // eslint-disable-next-line no-console
-//     console.error("[D'Anchiano SDK]: danchianoAsyncInit is not defined")
-//   }
-// }
-
-// if (document.readyState === 'loading') {
-//   document.addEventListener('DOMContentLoaded', DOMLoaded)
-// } else {
-//   init()
-// }

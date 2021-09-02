@@ -7,7 +7,7 @@ export default {
   output: [
     { file: pkg.browser, format: 'umd', sourcemap: true, exports: 'named', name: 'Danchiano' },
     { file: pkg.main, format: 'cjs', sourcemap: true, exports: 'named' },
-    { file: pkg.module, format: 'es', sourcemap: true }
+    { file: pkg.module, format: 'es', sourcemap: true },
   ],
   plugins: [
     // Enable declaration output

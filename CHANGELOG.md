@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.0.1] - 2021-09-31
+## [0.1.1] - 2021-09-01
+### Fixed
+- Rollup builds hang with typescript 4.4.2 [#983](https://github.com/rollup/plugins/issues/983)
+
+## [0.1.0] - 2021-08-31
 ### Added
 - First version

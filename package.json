@@ -1,6 +1,6 @@
 {
   "name": "danchiano-sdk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "D'Anchiano SDK",
   "main": "dist/index.cjs.js",
   "jsnext:main": "dist/index.esm.js",

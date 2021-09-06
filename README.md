@@ -1,18 +1,7 @@
 # D'Anchiano SDK
 
-<Group>
-<GroupItem>
+Esta es la forma más sencilla de añadir D'Anchiano a tu plataforma, solo tendrás que incluir unas cuantas líneas de código y configurar en tu [panel de administración de la API](https://dev.danchiano.com/account/api) el `dominio` desde el que harás la integración
 
-Esta es la forma más sencilla de añadir D'Anchiano a tu plataforma, solo tendrás que incluir unas cuantas líneas de código y configurar en tu [panel de administración de la API]({{BASE_URL}}/account/api/{{CLIENT_ID}}) el `dominio` desde el que harás la integración
-
-</GroupItem>
-<GroupItem>
-
-<Tabs values={[
-  { value: 'react', label: 'React' },
-  { value: 'browser', label: 'Navegador' },
-]}>
-<TabItem value="react">
 
 ``` bash joinUp joinDown
 yarn add danchiano-sdk
@@ -27,42 +16,13 @@ export default function Market() {
     renderMarket({
       selector: '#danchiano-sdk',
       clientId: '{{CLIENT_ID}}',
-      appUrl: '{{BASE_URL}}',
+      appUrl: 'https://dev.danchiano.com',
     })
   }, [])
 
   return <div id="danchiano-sdk" />
 }
 ```
-
-</TabItem>
-<TabItem value="browser">
-
-```html "index.html" {6,9,11-14}
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>D'Anchiano SDK</title>
-    <script src="{{SDK_URL}}"></script>
-  </head>
-  <body>
-    <div id="danchiano-sdk"></div>
-    <script>
-      Danchiano.renderMarket({
-        selector: '#danchiano-sdk',
-        clientId: '{{CLIENT_ID}}',
-      })
-    </script>
-  </body>
-</html>
-```
-
-</TabItem>
-</Tabs>
-
-</GroupItem>
-</Group>
 
 ## Métodos disponibles
 
@@ -76,7 +36,7 @@ Debajo listamos los parámetros y los métodos que les puedes pasar.
 Parámetro | Descripción
 --------- | -----------
 clientId <sub>init, render*</sub> | Id del cliente
-userToken <sub>init, render*</sub> | Token de acceso del [profesional](/docs/quickstart/create-applicant#muestra-el-test-en-tu-plataforma) o [empresa](/docs/quickstart/create-company#obten-el-token-de-acceso-de-la-empresa)
+userToken <sub>init, render*</sub> | Token de acceso del [profesional](https://dev.danchiano.com/docs/quickstart/create-applicant#muestra-el-test-en-tu-plataforma) o [empresa](https://dev.danchiano.com/docs/quickstart/create-company#obten-el-token-de-acceso-de-la-empresa)
 locale  <sub>init, render*</sub> | Idioma <sub>es-ES, ca-ES, en-US, pt-BR</sub>
 selector <sub>render*</sub> | Selector donde se renderizará la interfaz de D'Anchiano
 customize <sub>render*</sub> | [Opciones](#objeto-customize) para personalizar la interfaz

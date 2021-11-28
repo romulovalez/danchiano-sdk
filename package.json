@@ -1,7 +1,7 @@
 {
   "name": "danchiano-sdk",
-  "version": "0.1.2",
-  "description": "D'Anchiano SDK",
+  "version": "1.0.0",
+  "description": "D’Anchiano SDK",
   "main": "dist/index.cjs.js",
   "jsnext:main": "dist/index.esm.js",
   "module": "dist/index.esm.js",
@@ -10,10 +10,10 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "pretest": "yarn build",
+    "pretest": "npm run build",
     "test": "jest",
     "lint": "eslint src/",
-    "prepublishOnly": "yarn lint && yarn build"
+    "prepublishOnly": "npm run lint && npm run build"
   },
   "repository": {
     "type": "git",

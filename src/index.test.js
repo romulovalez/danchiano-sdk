@@ -7,7 +7,7 @@ test('Load SDK', async () => {
 
   window.Danchiano.renderMarket({
     selector: '#danchiano-sdk',
-    appUrl: 'https://app-dev.danchiano.com',
+    appUrl: 'https://dev.danchiano.com',
     customize: { accentColor: '#601A5A', darkMode: false },
   })
 

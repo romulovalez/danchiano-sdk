@@ -1,10 +1,10 @@
-# D'Anchiano SDK
+# D’Anchiano SDK
 
-Esta es la forma más sencilla de añadir D'Anchiano a tu plataforma, solo tendrás que incluir unas cuantas líneas de código y configurar en tu [panel de administración de la API](https://dev.danchiano.com/account/api) el `dominio` desde el que harás la integración
+Esta es la forma más sencilla de añadir D’Anchiano a tu plataforma, solo tendrás que incluir unas cuantas líneas de código y configurar en tu [panel de administración de la API](https://dev.danchiano.com/account/api) el `dominio` desde el que harás la integración
 
 
 ``` bash joinUp joinDown
-yarn add danchiano-sdk
+npm i danchiano-sdk
 ```
 
 ```jsx "Market.jsx" {2,6-9} joinUp
@@ -29,7 +29,7 @@ export default function Market() {
 <Group>
 <GroupItem>
 
-A la derecha listamos los métodos disponibles de la SDK.
+A la derecha listamos los métodos disponibles del SDK.
 
 Debajo listamos los parámetros y los métodos que les puedes pasar.
 
@@ -38,7 +38,7 @@ Parámetro | Descripción
 clientId <sub>init, render*</sub> | Id del cliente
 userToken <sub>init, render*</sub> | Token de acceso del [profesional](https://dev.danchiano.com/docs/quickstart/create-applicant#muestra-el-test-en-tu-plataforma) o [empresa](https://dev.danchiano.com/docs/quickstart/create-company#obten-el-token-de-acceso-de-la-empresa)
 locale  <sub>init, render*</sub> | Idioma <sub>es-ES, ca-ES, en-US, pt-BR</sub>
-selector <sub>render*</sub> | Selector donde se renderizará la interfaz de D'Anchiano
+selector <sub>render*</sub> | Selector donde se renderizará la interfaz de D’Anchiano
 customize <sub>render*</sub> | [Opciones](#objeto-customize) para personalizar la interfaz
 applicantData <sub>renderApplicant</sub> | [Datos del profesional](#objeto-applicantdata) a crear
 companyData <sub>renderCompany</sub> | [Datos de la empresa](#objeto-companyData) a crear
@@ -76,9 +76,8 @@ companyDeleteJob: async (jobId)
 companyGetJob: async (jobId)
 companyGetJobDescription: async (jobId)
 companySetJobDescription: async (jobId, profile, description)
-companyGetJobStandardDescription: async (jobId)
 companySetJobCompetences: async (jobId, competences)
-companyGetJobApplicants: async (jobId, query, page = 0, order)
+companyGetJobApplicants: async (jobId, page = 0, order)
 companyGetJobApplicantsMatch: async (jobId)
 companySearchJobApplicants: async (jobId, query, page = 0)
 companyJobAddApplicant: async (jobId, applicantId)
@@ -126,7 +125,7 @@ companyJobUnmarkApplicantAsFavorite: async (jobId, applicantId)
   firstname: string(),
   lastname: string(),
   birthdate: string(),
-  sex: string().matches(/(male|female|neutral)/),
+  sex: string().matches(/male|female|neutral/),
   country: string(),
   province: string(),
   city: string(),
@@ -180,7 +179,7 @@ companyJobUnmarkApplicantAsFavorite: async (jobId, applicantId)
   cp: string().nullable(),
   peopleInCharge: boolean(),
   // Infer profile (for external profiles):
-  site: string().matches(/(universal|linkedin|infojobs|buscojobs|manpower|randstad|tecnoempleo|talentclue)/),
+  site: string().matches(/universal|linkedin|infojobs|buscojobs|manpower|randstad|tecnoempleo|talentclue/),
   name: string(),
   levelText: string(),
   functionText: string(),
@@ -193,8 +192,8 @@ companyJobUnmarkApplicantAsFavorite: async (jobId, applicantId)
 {
   first: {
     id: number().integer(),
-    type: string().matches(/(market_applicant|market_job|applicant|job|team)/),
-    sex: string().matches(/(male|female|neutral)/),
+    type: string().matches(/market_applicant|market_job|applicant|job|team/),
+    sex: string().matches(/male|female|neutral/),
     ageMin: number().integer().min(0).max(120),
     ageMax: number().integer().min(0).max(120),
     peopleInCharge: boolean(),
@@ -205,7 +204,7 @@ companyJobUnmarkApplicantAsFavorite: async (jobId, applicantId)
     educationalLevel: array().of(number().integer().min(0).max(6)),
     country: array().of(string()),
     // Infer profile (for external profiles):
-    site: string().matches(/(universal|linkedin|infojobs|buscojobs|manpower|randstad|tecnoempleo|talentclue)/),
+    site: string().matches(/universal|linkedin|infojobs|buscojobs|manpower|randstad|tecnoempleo|talentclue/),
     name: string(),
     levelText: string(),
     functionText: string(),
@@ -213,8 +212,8 @@ companyJobUnmarkApplicantAsFavorite: async (jobId, applicantId)
   },
   second: {
     id: number().integer(),
-    type: string().matches(/(market_applicant|market_job|applicant|job|team)/),
-    sex: string().matches(/(male|female|neutral)/),
+    type: string().matches(/market_applicant|market_job|applicant|job|team/),
+    sex: string().matches(/male|female|neutral/),
     ageMin: number().integer().min(0).max(120),
     ageMax: number().integer().min(0).max(120),
     peopleInCharge: boolean(),
@@ -225,13 +224,12 @@ companyJobUnmarkApplicantAsFavorite: async (jobId, applicantId)
     educationalLevel: array().of(number().integer().min(0).max(6)),
     country: array().of(string()),
     // Infer profile (for external profiles):
-    site: string().matches(/(universal|linkedin|infojobs|buscojobs|manpower|randstad|tecnoempleo|talentclue)/),
+    site: string().matches(/universal|linkedin|infojobs|buscojobs|manpower|randstad|tecnoempleo|talentclue/),
     name: string(),
     levelText: string(),
     functionText: string(),
     sectorText: string(),
   },
-  selected: string().matches(/(first|second|compare)/).default('first'),
-  onlyIndicators: boolean(),
+  selected: string().matches(/first|second|compare/).default('first'),
 }
 ```

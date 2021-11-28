@@ -43,6 +43,8 @@ type CallbackProps = {
   profiles?: ProfilesProps
 }
 
+type LocaleProps = 'es-ES' | 'ca-ES' | 'en-US' | 'pt-BR'
+
 type Props = {
   appUrl?: string
   selector?: string
@@ -59,13 +61,11 @@ type Props = {
   jobData?: any
   profiles?: any
   jobId?: number
-  locale?: 'es-ES' | 'ca-ES' | 'en-US' | 'pt-BR'
+  locale?: LocaleProps
 }
 
 let defaultProps: Props = {
-  appUrl: 'https://app.danchiano.com',
-  // appUrl: 'https://app-dev.danchiano.com',
-  // appUrl: 'http://localhost:8080',
+  appUrl: 'https://danchiano.com',
 }
 
 let iframeNode: any // HtmlIFrameElement
@@ -76,14 +76,14 @@ function loadIframe({ selector, appUrl, routeTo, clientId, userToken, isForReque
   return new Promise<void>(resolve => {
     if (!selector) {
       // eslint-disable-next-line no-console
-      console.error("[D'Anchiano SDK]: selector is not defined")
+      console.error('[D’Anchiano SDK]: selector is not defined')
       return
     }
 
     const root = document.querySelector(selector)
     if (!root) {
       // eslint-disable-next-line no-console
-      console.error(`[D'Anchiano SDK]: ${selector} element not found`)
+      console.error(`[D’Anchiano SDK]: ${selector} element not found`)
       return
     }
 
@@ -112,7 +112,19 @@ function loadIframe({ selector, appUrl, routeTo, clientId, userToken, isForReque
     // Create iframe
     storedSelector = selector
     iframeNode = document.createElement('iframe')
-    iframeNode.setAttribute('src', `${appUrl}${routeTo ?? ''}${userToken || clientId ? `?${[userToken && `token=${userToken}`, clientId && `clientId=${clientId}`].filter(Boolean).join('&')}` : ''}`)
+
+    const searchUrlParams = [
+      userToken != null && `token=${userToken}`,
+      clientId != null && `clientId=${clientId}`,
+    ].filter(Boolean).join('&')
+
+    // Replace DEPRECATED app.danchiano.com and app-dev.danchiano.com for danchiano and dev.danchiano.com
+    if (appUrl === 'https://app.danchiano.com')
+      appUrl = 'https://danchiano.com'
+    else if (appUrl === 'https://app-dev.danchiano.com')
+      appUrl = 'https://dev.danchiano.com'
+
+    iframeNode.setAttribute('src', `${appUrl}${routeTo ?? ''}${searchUrlParams ? `?${searchUrlParams}` : ''}`)
     iframeNode.setAttribute('style', `width: 100%; min-height: 150px; border: 0${isForRequest ? ';display: none' : ''}`)
     root.appendChild(iframeNode)
 
@@ -127,7 +139,7 @@ function loadIframe({ selector, appUrl, routeTo, clientId, userToken, isForReque
       } else if (event.data.type === 'danchiano_redirect') {
         if (!event.data.url) {
           // eslint-disable-next-line no-console
-          console.error("[D'Anchiano SDK]: redirect url not defined")
+          console.error('[D’Anchiano SDK]: redirect url not defined')
           return
         }
 
@@ -209,8 +221,9 @@ export const renderMarket = (props: Props) => { // profiles
 // Common methods
 export const login = (email: string, password: string) => request('/login', { method: 'POST', body: { email, password } })
 export const logout = () => request('/logout')
-export const setLocale = (locale: string) => request(`/language/${locale}`, { method: 'POST' })
-export const getReport = (profiles: any) => request('/report', { method: 'POST', body: profiles })
+export const setLocale = (locale: LocaleProps) => request(`/language/${locale}`, { method: 'POST' })
+// @ts-ignore
+export const getReport = (profiles: ProfilesProps) => request(`/report${profiles ? `?${new URLSearchParams(profiles)}` : ''}`)
 // Applicant methods
 export const applicantRegister = (fields: any) => request('/applicant', { method: 'POST', contentType: null, body: fields })
 export const applicantTestGetQuestion = () => request('/applicant/questions')
@@ -225,10 +238,9 @@ export const companyDeleteJob = (jobId: number) => request(`/companies/jobs/${jo
 export const companyGetJob = (jobId: number) => request(`/companies/jobs/${jobId}`)
 export const companyGetJobDescription = (jobId: number) => request(`/companies/jobs/${jobId}/description`)
 export const companySetJobDescription = (jobId: number, profile: any, description: any) => request(`/companies/jobs/${jobId}/description`, { method: 'POST', body: { profile, description } })
-export const companyGetJobStandardDescription = (jobId: number) => request(`/companies/jobs/${jobId}/description/standard`)
 export const companySetJobCompetences = (jobId: number, competences: number[]) => request(`/companies/jobs/${jobId}/competences`, { method: 'POST', body: { competences } })
-export const companyGetJobApplicants = (jobId: number, query: string, page = 0, order: string) => request(`/companies/jobs/${jobId}/applicants?q=${query}&p=${page}&o=${order}&onlyAdded=true`)
-export const companyGetJobApplicantsMatch = (jobId: number) => request(`/companies/jobs/${jobId}/applicants?onlyAdded=true&onlyMatch=true`)
+export const companyGetJobApplicants = (jobId: number, page = 0, sort: string) => request(`/companies/jobs/${jobId}/applicants?p=${page}&sort=${sort}`)
+export const companyGetJobApplicantsMatch = (jobId: number) => request(`/companies/jobs/${jobId}/applicants?onlyMatch=true`)
 export const companySearchJobApplicants = (jobId: number, query: string, page = 0) => request(`/companies/jobs/${jobId}/applicants?q=${query}&p=${page}`)
 export const companyJobAddApplicant = (jobId: number, applicantId: number) => request(`/companies/jobs/${jobId}/applicants/${applicantId}`, { method: 'POST' })
 export const companyJobDeleteApplicant = (jobId: number, applicantId: number) => request(`/companies/jobs/${jobId}/applicants/${applicantId}`, { method: 'DELETE' })
@@ -259,7 +271,6 @@ const Danchiano = {
   companyGetJob,
   companyGetJobDescription,
   companySetJobDescription,
-  companyGetJobStandardDescription,
   companySetJobCompetences,
   companyGetJobApplicants,
   companyGetJobApplicantsMatch,
@@ -271,3 +282,27 @@ const Danchiano = {
 }
 
 export default Danchiano
+
+/**
+ * Initialization
+ * DEPRECATED: only used on old integrations with CDN
+ */
+window.Danchiano = Danchiano
+
+declare global {
+  interface Window {
+    Danchiano?: typeof Danchiano
+    danchianoAsyncInit?: () => void
+  }
+}
+
+function DOMLoaded() {
+  if (typeof window.danchianoAsyncInit === 'function')
+    window.danchianoAsyncInit()
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', DOMLoaded)
+} else {
+  DOMLoaded()
+}

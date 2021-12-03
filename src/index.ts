@@ -177,24 +177,25 @@ function renderSDK(props: Props) {
   })
 }
 
-const request = (endpoint: string, params?: any) => loadIframe({ selector: 'body', appUrl: defaultProps.appUrl, isForRequest: true }).then(() => {
-  const key = JSON.stringify({ url: `/api/v2${endpoint}`, ...defaultProps, ...params })
-  iframeNode.contentWindow.postMessage({
-    type: 'danchiano_request',
-    key,
-    url: `/api/v2${endpoint}`,
-    params: { ...defaultProps, ...params },
-  }, '*')
+// // DEPRECATED
+// const request = (endpoint: string, params?: any) => loadIframe({ selector: 'body', appUrl: defaultProps.appUrl, isForRequest: true }).then(() => {
+//   const key = JSON.stringify({ url: `/api/v2${endpoint}`, ...defaultProps, ...params })
+//   iframeNode.contentWindow.postMessage({
+//     type: 'danchiano_request',
+//     key,
+//     url: `/api/v2${endpoint}`,
+//     params: { ...defaultProps, ...params },
+//   }, '*')
 
-  // Wait for response and return it
-  return new Promise(resolve => {
-    window.addEventListener('message', event => {
-      if (event.data.type === 'danchiano_response' && event.data.key === key) {
-        resolve(event.data.result)
-      }
-    }, false)
-  })
-})
+//   // Wait for response and return it
+//   return new Promise(resolve => {
+//     window.addEventListener('message', event => {
+//       if (event.data.type === 'danchiano_response' && event.data.key === key) {
+//         resolve(event.data.result)
+//       }
+//     }, false)
+//   })
+// })
 
 // common props: selector, extension, customize, callback
 export const init = (props?: Props) => {
@@ -218,34 +219,12 @@ export const renderReport = (props: Props) => { // profiles
 export const renderMarket = (props: Props) => { // profiles
   renderSDK({ ...props, routeTo: '/market' })
 }
-// Common methods
-export const login = (email: string, password: string) => request('/login', { method: 'POST', body: { email, password } })
-export const logout = () => request('/logout')
-export const setLocale = (locale: LocaleProps) => request(`/language/${locale}`, { method: 'POST' })
-// @ts-ignore
-export const getReport = (profiles: ProfilesProps) => request(`/report${profiles ? `?${new URLSearchParams(profiles)}` : ''}`)
-// Applicant methods
-export const applicantRegister = (fields: any) => request('/applicant', { method: 'POST', contentType: null, body: fields })
-export const applicantTestGetQuestion = () => request('/applicant/questions')
-export const applicantTestUpdateTimer = (secondsPassed: number) => request('/applicant/test-timer', { method: 'PATCH', body: { timer: secondsPassed } })
-export const applicantTestSendAnswer = (id: number, answer: string) => request(`/applicant/answer/${id}`, { method: 'POST', body: { answerValue: answer } })
-// Company methods
-export const companyRegister = (fields: any) => request('/companies', { method: 'POST', contentType: null, body: fields })
-export const companyGetJobs = () => request('/companies/jobs')
-export const companyPostJob = (jobData: any) => request('/companies/jobs', { method: 'POST', body: jobData })
-export const companyUpdateJob = (jobId: number, jobData: any) => request(`/companies/jobs/${jobId}`, { method: 'PATCH', body: jobData })
-export const companyDeleteJob = (jobId: number) => request(`/companies/jobs/${jobId}`, { method: 'DELETE' })
-export const companyGetJob = (jobId: number) => request(`/companies/jobs/${jobId}`)
-export const companyGetJobDescription = (jobId: number) => request(`/companies/jobs/${jobId}/description`)
-export const companySetJobDescription = (jobId: number, profile: any, description: any) => request(`/companies/jobs/${jobId}/description`, { method: 'POST', body: { profile, description } })
-export const companySetJobCompetences = (jobId: number, competences: number[]) => request(`/companies/jobs/${jobId}/competences`, { method: 'POST', body: { competences } })
-export const companyGetJobApplicants = (jobId: number, page = 0, sort: string) => request(`/companies/jobs/${jobId}/applicants?p=${page}&sort=${sort}`)
-export const companyGetJobApplicantsMatch = (jobId: number) => request(`/companies/jobs/${jobId}/applicants?onlyMatch=true`)
-export const companySearchJobApplicants = (jobId: number, query: string, page = 0) => request(`/companies/jobs/${jobId}/applicants?q=${query}&p=${page}`)
-export const companyJobAddApplicant = (jobId: number, applicantId: number) => request(`/companies/jobs/${jobId}/applicants/${applicantId}`, { method: 'POST' })
-export const companyJobDeleteApplicant = (jobId: number, applicantId: number) => request(`/companies/jobs/${jobId}/applicants/${applicantId}`, { method: 'DELETE' })
-export const companyJobMarkApplicantAsFavorite = (jobId: number, applicantId: number) => request(`/companies/jobs/${jobId}/applicants/${applicantId}/favorite`, { method: 'POST' })
-export const companyJobUnmarkApplicantAsFavorite = (jobId: number, applicantId: number) => request(`/companies/jobs/${jobId}/applicants/${applicantId}/favorite`, { method: 'DELETE' })
+// DEPRECATED: we're now using a token to authenticate the user, so no need for this endpoint
+// Aside from that is cancelling requests and are making the servers unstable
+export const login = () => {}
+// export const login = (email: string, password: string) => request('/login', { method: 'POST', body: { email, password } })
+export const logout = () => {}
+// export const logout = () => request('/logout')
 
 const Danchiano = {
   init,
@@ -257,28 +236,6 @@ const Danchiano = {
   renderMarket,
   login,
   logout,
-  setLocale,
-  getReport,
-  applicantRegister,
-  applicantTestGetQuestion,
-  applicantTestUpdateTimer,
-  applicantTestSendAnswer,
-  companyRegister,
-  companyGetJobs,
-  companyPostJob,
-  companyUpdateJob,
-  companyDeleteJob,
-  companyGetJob,
-  companyGetJobDescription,
-  companySetJobDescription,
-  companySetJobCompetences,
-  companyGetJobApplicants,
-  companyGetJobApplicantsMatch,
-  companySearchJobApplicants,
-  companyJobAddApplicant,
-  companyJobDeleteApplicant,
-  companyJobMarkApplicantAsFavorite,
-  companyJobUnmarkApplicantAsFavorite,
 }
 
 export default Danchiano

@@ -6,12 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.0] - 2021-11-28
+## [1.1.0] - 2021-12-03
 ### Changed
-- First stable release
+- Deprecated some unused SDK methods
 
+### Fixed
+- Reduce initial requests from SDK
+
+## [1.0.0] - 2021-11-28
 ### Added
 - Added retrocompatibility with legacy CDN
+
+### Changed
+- First stable release
 
 ## [0.1.2] - 2021-09-07
 ### Changed

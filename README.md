@@ -35,55 +35,28 @@ Debajo listamos los parámetros y los métodos que les puedes pasar.
 
 Parámetro | Descripción
 --------- | -----------
-clientId <sub>init, render*</sub> | Id del cliente
-userToken <sub>init, render*</sub> | Token de acceso del [profesional](https://dev.danchiano.com/docs/quickstart/create-applicant#muestra-el-test-en-tu-plataforma) o [empresa](https://dev.danchiano.com/docs/quickstart/create-company#obten-el-token-de-acceso-de-la-empresa)
-locale  <sub>init, render*</sub> | Idioma <sub>es-ES, ca-ES, en-US, pt-BR</sub>
-selector <sub>render*</sub> | Selector donde se renderizará la interfaz de D’Anchiano
-customize <sub>render*</sub> | [Opciones](#objeto-customize) para personalizar la interfaz
+clientId | Id del cliente
+userToken | Token de acceso del [profesional](https://dev.danchiano.com/docs/quickstart/create-applicant#muestra-el-test-en-tu-plataforma) o [empresa](https://dev.danchiano.com/docs/quickstart/create-company#obten-el-token-de-acceso-de-la-empresa)
+locale | Idioma <sub>es-ES, ca-ES, en-US, pt-BR</sub>
+selector | Selector donde se renderizará la interfaz de D’Anchiano
+customize | [Opciones](#objeto-customize) para personalizar la interfaz
 applicantData <sub>renderApplicant</sub> | [Datos del profesional](#objeto-applicantdata) a crear
 companyData <sub>renderCompany</sub> | [Datos de la empresa](#objeto-companyData) a crear
 jobData <sub>renderJob</sub> | [Datos del puesto](#objeto-jobData) a crear
-profiles <sub>render*</sub> | [Perfiles](#objeto-profiles) a mostrar en el informe
-callback <sub>render*</sub> | Función a ejecutar cuando ocurra una determinada acción (creación de un profesional, carga de un informe, entre otros). [Más detalles](#tipos-de-callback)
+profiles | [Perfiles](#objeto-profiles) a mostrar en el informe
+callback | Función a ejecutar cuando ocurra una determinada acción (creación de un profesional, carga de un informe, entre otros). [Más detalles](#tipos-de-callback)
 
 </GroupItem>
 <GroupItem>
 
 ```js
-// Render methods
+init: ({ clientId, userToken, locale })
 render: ({ selector, customize, callback })
 renderApplicant: ({ selector, applicantData, profiles, customize, callback }) 
 renderCompany: ({ selector, companyData, customize, callback })
 renderJob: ({ selector, jobId = null, jobData, customize, callback })
 renderReport: ({ selector, profiles, customize, callback })
 renderMarket: ({ selector, profiles, customize, callback })
-// Common methods
-init: ({ clientId, userToken, locale })
-login: async (email, password)
-logout: async ()
-getReport: async (profiles)
-// Applicant methods
-applicantRegister: async (fields)
-applicantTestGetQuestion: async ()
-applicantTestUpdateTimer: async (secondsPassed)
-applicantTestSendAnswer: async (id, answer)
-// Company methods
-companyRegister: async (fields)
-companyGetJobs: async ()
-companyPostJob: async (jobData)
-companyUpdateJob: async (jobId, jobData)
-companyDeleteJob: async (jobId)
-companyGetJob: async (jobId)
-companyGetJobDescription: async (jobId)
-companySetJobDescription: async (jobId, profile, description)
-companySetJobCompetences: async (jobId, competences)
-companyGetJobApplicants: async (jobId, page = 0, order)
-companyGetJobApplicantsMatch: async (jobId)
-companySearchJobApplicants: async (jobId, query, page = 0)
-companyJobAddApplicant: async (jobId, applicantId)
-companyJobDeleteApplicant: async (jobId, applicantId)
-companyJobMarkApplicantAsFavorite: async (jobId, applicantId)
-companyJobUnmarkApplicantAsFavorite: async (jobId, applicantId)
 ```
 
 </GroupItem>
@@ -231,5 +204,16 @@ companyJobUnmarkApplicantAsFavorite: async (jobId, applicantId)
     sectorText: string(),
   },
   selected: string().matches(/first|second|compare/).default('first'),
+}
+```
+
+## Tipos de callback
+```ts
+type CallbackProps = {
+  action: 'registerApplicant' | 'registerCompany' | 'companyPostJob' | 'getReport'
+  applicantId?: number
+  companyId?: number
+  jobId?: number
+  profiles?: ProfilesProps
 }
 ```

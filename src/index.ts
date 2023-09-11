@@ -49,7 +49,7 @@ type Props = {
   appUrl?: string
   selector?: string
   clientId?: string
-  publicKey?: string // DEPRECATED
+  publicKey?: string // Deprecated
   userToken?: string
   extension?: boolean
   customize?: any // CustomizeProps
@@ -118,7 +118,7 @@ function loadIframe({ selector, appUrl, routeTo, clientId, userToken, isForReque
       clientId != null && `clientId=${clientId}`,
     ].filter(Boolean).join('&')
 
-    // Replace DEPRECATED app.danchiano.com and app-dev.danchiano.com for danchiano and dev.danchiano.com
+    // Replace deprecated app.danchiano.com and app-dev.danchiano.com for danchiano and dev.danchiano.com
     if (appUrl === 'https://app.danchiano.com')
       appUrl = 'https://danchiano.com'
     else if (appUrl === 'https://app-dev.danchiano.com')
@@ -177,27 +177,7 @@ function renderSDK(props: Props) {
   })
 }
 
-// // DEPRECATED
-// const request = (endpoint: string, params?: any) => loadIframe({ selector: 'body', appUrl: defaultProps.appUrl, isForRequest: true }).then(() => {
-//   const key = JSON.stringify({ url: `/api/v2${endpoint}`, ...defaultProps, ...params })
-//   iframeNode.contentWindow.postMessage({
-//     type: 'danchiano_request',
-//     key,
-//     url: `/api/v2${endpoint}`,
-//     params: { ...defaultProps, ...params },
-//   }, '*')
-
-//   // Wait for response and return it
-//   return new Promise(resolve => {
-//     window.addEventListener('message', event => {
-//       if (event.data.type === 'danchiano_response' && event.data.key === key) {
-//         resolve(event.data.result)
-//       }
-//     }, false)
-//   })
-// })
-
-// common props: selector, extension, customize, callback
+// Common props: selector, extension, customize, callback
 export const init = (props?: Props) => {
   defaultProps = { ...defaultProps, ...props }
 }
@@ -219,12 +199,9 @@ export const renderReport = (props: Props) => { // profiles
 export const renderMarket = (props: Props) => { // profiles
   renderSDK({ ...props, routeTo: '/market' })
 }
-// DEPRECATED: we're now using a token to authenticate the user, so no need for this endpoint
-// Aside from that is cancelling requests and are making the servers unstable
+// Deprecated, preserve it for backward compatibility
 export const login = () => {}
-// export const login = (email: string, password: string) => request('/login', { method: 'POST', body: { email, password } })
 export const logout = () => {}
-// export const logout = () => request('/logout')
 
 const Danchiano = {
   init,
@@ -240,10 +217,7 @@ const Danchiano = {
 
 export default Danchiano
 
-/**
- * Initialization
- * DEPRECATED: only used on old integrations with CDN
- */
+// Initialization, only used on old integrations with CDN
 window.Danchiano = Danchiano
 
 declare global {
